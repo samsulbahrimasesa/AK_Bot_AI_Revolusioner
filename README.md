@@ -35,7 +35,7 @@ Proses penetapan Angka Kredit (AK) bagi Jabatan Fungsional (JF) saat ini adalah 
 * **AI Integrity Check:** Mengeliminasi dokumen berisiko (duplikasi/pemalsuan) berkat fitur **Forgery Detector**.
 * **Kenaikan Pangkat Otomatis:** Sistem yang proaktif mendorong promosi tanpa menunggu pengajuan manual dari ASN.
 
-### 3. 📈 Dampak & Kelayakan Implementasi (Juara 1 & ROI)
+### 3. 📈 Dampak & Kelayakan Implementasi 
 
 AK-Bot siap diimplementasikan karena dirancang untuk **Plug-and-Play** dengan API BKN:
 
@@ -45,11 +45,7 @@ AK-Bot siap diimplementasikan karena dirancang untuk **Plug-and-Play** dengan AP
 | **Peningkatan Integritas** | **Menurunkan insiden dokumen berisiko** berkat *filter* DFD AI. |
 | **Kesiapan Integrasi** | Dirancang sebagai **Modul AI** yang dapat di-*deploy* langsung di **Server SIASN BKN**, menjamin keamanan dan akses data. |
 
-### 4. 🔗 Link dan Demonstrasi
-
-* **Link Prototipe Desain Figma (Interaktif):** [Sisipkan LINK PUBLIK FIGMA Anda di sini]
-* **Link GitHub Repository (Code & Dokumentasi):** [Sisipkan URL Streamlit Cloud Anda di sini, karena ini adalah demo live dari repository ini]
 
 ---
 **Tim AI Revolusioner:**
-[Nama Anggota 1, Nama Anggota 2, Nama Anggota 3]
+[Samsulbahri Masesa, Winand Liburtemar Lololuan, Lourenza R. Radjabaycolle]
