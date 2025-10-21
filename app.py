@@ -3,26 +3,47 @@ import pandas as pd
 import time
 import random
 
-# --- Konfigurasi Awal ---
-st.set_page_config(layout="wide")
-st.title("AK-Bot ADMIN DASHBOARD: Monitoring & Penetapan Angka Kredit")
-st.subheader("Tim: AI Revolusioner - Solusi Digitalisasi Kinerja ASN untuk Administrator")
+# --- Konfigurasi Awal & Logo BKN ---
+st.set_page_config(
+    layout="wide",
+    page_title="AK-Bot Dashboard BKN",
+    initial_sidebar_state="expanded"
+)
+
+# Simulasi Logo BKN di Header
+col_logo, col_title = st.columns([1, 6])
+with col_logo:
+    # Jika Anda memiliki URL atau nama file gambar BKN (misalnya logo_bkn.png), 
+    # Anda bisa mengganti teks ini dengan st.image('logo_bkn.png', width=80)
+    st.markdown("## ⚙️", unsafe_allow_html=True) 
+
+with col_title:
+    st.title("AK-Bot ADMIN DASHBOARD: Monitoring & Penetapan Angka Kredit")
+    st.subheader("Tim: AI Revolusioner - Solusi Digitalisasi Kinerja ASN untuk Administrator")
+
 st.markdown("---")
 
 # DATA SIMULASI PEGAWAI (DUMMY DATABASE BKN)
 data_pegawai = {
-    'Nama ASN': ['Winand Liburtemar, S.E., M.Si.', 'Lourenza R. Radjabaycolle, S.T.', 'Ajon Rambing, M.Hum.', 'Joko Susanto, S.Pd.'],
-    'Pangkat/Jabatan': ['Analis Kebijakan Muda', 'Pranata Komputer Madya', 'Arsiparis Pertama', 'Guru Ahli Muda'],
-    'No. WA': ['+62812xxxxxx', '+62856xxxxxx', '+62878xxxxxx', '+62896xxxxxx'],
-    'AK Saat Ini': [85.0, 95.0, 70.0, 80.0],
-    'AK Target': [100.0, 150.0, 100.0, 150.0]
+    'Nama ASN': ['Winan Lubertemar Lololuan, S.Kom., M.TI.', 
+                 'Ajon Rambing, S.H., M.H.', 
+                 'Florenza, S.E., M.Si.', 
+                 'Samsulbahri Masesa, S.Pd., M.A.'],
+    'Pangkat/Jabatan': ['Pranata Komputer Madya', 
+                        'Analis Kebijakan Muda', 
+                        'Arsiparis Pertama', 
+                        'Guru Ahli Utama'],
+    # CATATAN: GANTI PLACEHOLDER WA DENGAN NOMOR ANDA YANG NYATA UNTUK DEMO!
+    'No. WA': ['+62812xxxxxx', '+62856xxxxxx', '+62878xxxxxx', '+62896xxxxxx'], 
+    'AK Saat Ini': [95.0, 85.0, 70.0, 140.0],
+    'AK Target': [100.0, 100.0, 100.0, 200.0] 
 }
 df = pd.DataFrame(data_pegawai)
 
 # DATA BOT
-NO_WA_BOT = "+62 812 3456 7890" 
+NO_WA_BOT = "+6281341520363" 
 NAMA_BOT = "BKN AK-Bot Assistant"
-AK_DUMMY_PENETAPAN = 8.0 # Nilai AK tetap (Simulasi hasil OCR/CV)
+AK_DUMMY_PENETAPAN = 8.0 
 
 # --- FUNGSI INTI: SIMULASI PROSES AK-BOT ---
 def run_ak_bot_process(pegawai_data, new_ak_value, doc_status):
@@ -33,8 +54,10 @@ def run_ak_bot_process(pegawai_data, new_ak_value, doc_status):
     
     # 1. Simulasi Forgery Detector (DFD)
     st.header("1. Validasi Dokumen (DFD & NLP Validator)")
+    
+    # Menampilkan keputusan DFD yang sudah dipilih/di-random di main block
     if doc_status == "RISIKO TINGGI":
-        st.error("⚠️ STATUS: RISIKO TINGGI Dideteksi oleh Forgery Detector.")
+        st.error("⚠️ STATUS: RISIKO TINGGI Dideteksi oleh Forgery Detector. AK-Bot menolak dokumen.")
         st.markdown("Dokumen **DITOLAK** dan ditahan untuk Verifikasi Manual. Proses AK dihentikan.")
         return 
 
@@ -100,7 +123,7 @@ selected_name = st.selectbox(
 # Ambil data pegawai yang dipilih
 selected_pegawai = df[df['Nama ASN'] == selected_name].iloc[0].to_dict()
 
-st.info(f"Anda memilih: **{selected_pegawai['Nama ASN']}** (AK Awal: {selected_pegawai['AK Saat Ini']} AK)")
+st.info(f"Anda memilih: **{selected_pegawai['Nama ASN']}** (Pangkat: {selected_pegawai['Pangkat/Jabatan']} | AK Awal: {selected_pegawai['AK Saat Ini']} AK)")
 
 # INPUT UTAMA: FILE UPLOADER 
 st.subheader("Trigger AK-Bot: Upload Dokumen Kinerja (Simulasi Kiriman WA)")
@@ -114,28 +137,46 @@ if uploaded_file is not None:
     st.markdown("---")
     
     # ------------------------------------------------------------------------------------------------
-    # --- LOGIKA DFD & TRIGGER UTAMA: MEMILIH STATUS DFD & NILAI OTOMATIS BERDASARKAN FILE ---
+    # --- LOGIKA DFD & TRIGGER UTAMA: DFD KONTROL CERDAS ---
     # ------------------------------------------------------------------------------------------------
     
-    # DFD Logic: Simulasi DFD (Gunakan radio button untuk demo DFD)
-    st.markdown("#### 1A. Simulasi Status Forgery Detector (Admin Override)")
-    doc_status_radio = st.radio(
-        "Apakah DFD AI mendeteksi RISIKO TINGGI pada file ini?",
-        ("TIDAK RISIKO (Lolos)", "RISIKO TINGGI (Tolak)"),
-        index=0,
-        horizontal=True
-    )
-    
-    doc_status_simulasi = "RISIKO TINGGI" if doc_status_radio == "RISIKO TINGGI (Tolak)" else "SAH"
+    st.markdown("#### 1A. Keputusan Otomatis Document Forgery Detector (DFD) ")
+    st.info("⚠️ **Simulasi AI:** Berkas ini sedang dianalisis. Anda dapat melakukan *Override* Admin.")
 
-    st.success(f"✅ Dokumen '{uploaded_file.name}' berhasil diunggah.")
-    st.markdown(f"**AI OCR/CV:** Sedang mengekstrak data dan menetapkan nilai AK sebesar **{AK_DUMMY_PENETAPAN} AK**...")
+    # Kotak Kontrol Cerdas (Hanya Muncul Saat Upload)
+    col1, col2 = st.columns([1, 1])
     
-    time.sleep(1) 
+    with col1:
+        # Pilihan DFD yang diprediksi AI (Default: Lolos)
+        predicted_dfd = st.radio(
+            "Prediksi Awal AI:",
+            ("SAH (Lolos Verifikasi)", "RISIKO TINGGI (Ditolak)"),
+            index=0,
+            horizontal=True,
+            key='dfd_pred'
+        )
     
-    # Memanggil fungsi utama dengan data pegawai yang dipilih
-    run_ak_bot_process(
-        pegawai_data=selected_pegawai, 
-        new_ak_value=AK_DUMMY_PENETAPAN, 
-        doc_status=doc_status_simulasi
-    )
+    with col2:
+        # Tombol Final Trigger
+        final_trigger = st.button("Jalankan Proses AK-Bot (Final Trigger)", type="primary")
+
+    doc_status_simulasi = "RISIKO TINGGI" if predicted_dfd.startswith("RISIKO TINGGI") else "SAH"
+
+    # Jalankan Proses Hanya Ketika Tombol ditekan
+    if final_trigger:
+        
+        # Tampilkan Hasil Keputusan DFD
+        st.markdown("---")
+        if doc_status_simulasi == "RISIKO TINGGI":
+            st.error(f"🚨 **Keputusan DFD AI (Final):** Dokumen '{uploaded_file.name}' terdeteksi sebagai **RISIKO TINGGI**.")
+        else:
+            st.success(f"✅ **Keputusan DFD AI (Final):** Dokumen '{uploaded_file.name}' dinyatakan **SAH** (Lolos Verifikasi).")
+            st.markdown(f"**AI OCR/CV:** Sedang mengekstrak data dan menetapkan nilai AK sebesar **{AK_DUMMY_PENETAPAN} AK**...")
+            time.sleep(1)
+        
+        # Memanggil fungsi utama
+        run_ak_bot_process(
+            pegawai_data=selected_pegawai, 
+            new_ak_value=AK_DUMMY_PENETAPAN, 
+            doc_status=doc_status_simulasi
+        )
