@@ -1,7 +1,7 @@
 [theme]
 base="light"
-primaryColor="#FF4B4B" # Warna tombol utama (misalnya merah BKN)
+primaryColor="#007bff"  # Biru Khas Instansi Pemerintah
 backgroundColor="#FFFFFF"
-secondaryBackgroundColor="#F0F2F6"
-textColor="#31333F"
+secondaryBackgroundColor="#F8F9FA" # Abu-abu sangat muda untuk kontras
+textColor="#343A40"
 font="sans serif"
